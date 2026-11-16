@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
+	"sync"
 )
 
 const (
@@ -12,16 +14,46 @@ const (
 // generateRandomElements generates random elements.
 func generateRandomElements(size int) []int {
 	// ваш код здесь
+	if size == 0 {
+		return nil
+	}
+	rng := rand.NewSource(int64(size))
+	var slice []int
+	for i := 0; i < size; i++ {
+		slice = append(slice, int(rng.Int63()))
+	}
+
+	return slice
 }
 
 // maximum returns the maximum number of elements.
 func maximum(data []int) int {
 	// ваш код здесь
+	if data == nil {
+		return 0
+	}
+
+	var maxInt int
+
+	for _, v := range data {
+		maxInt = max(maxInt, v)
+
+	}
+
 }
 
 // maxChunks returns the maximum number of elements in a chunks.
 func maxChunks(data []int) int {
 	// ваш код здесь
+	var wg sync.WaitGroup
+
+	wg.Add(CHUNKS)
+
+	var maxSlice []int
+	for i := 0; i <= CHUNKS; i++ {
+		sizeChunkSlice := len(data) / CHUNKS
+
+	}
 }
 
 func main() {
