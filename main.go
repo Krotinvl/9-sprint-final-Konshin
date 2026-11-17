@@ -37,8 +37,9 @@ func maximum(data []int) int {
 	maxInt := data[0]
 
 	for _, v := range data {
-		maxInt = max(maxInt, v)
-
+		if v > maxInt {
+			maxInt = v
+		}
 	}
 	return maxInt
 }
@@ -71,27 +72,13 @@ func maxChunks(data []int) int {
 
 		go func(idx int, chunk []int) {
 			defer wg.Done()
-
-			if len(chunk) == 0 {
-				return
-			}
-
-			maxInt := chunk[0]
-			for _, v := range chunk {
-				maxInt = max(maxInt, v)
-			}
-
-			maxSlice[idx] = maxInt
+			maxSlice[idx] = maximum(chunk)
 		}(i, data[beginIndex:endIndex])
 	}
 
 	wg.Wait()
 
-	maxInt := maxSlice[0]
-	for _, v := range maxSlice {
-		maxInt = max(maxInt, v)
-	}
-
+	maxInt := maximum(maxSlice)
 	return maxInt
 }
 
