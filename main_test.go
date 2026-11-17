@@ -63,7 +63,7 @@ func TestMaximum(t *testing.T) {
 		want int
 	}{
 		{
-			name: "Не созданный срез",
+			name: "Срез равен nil",
 			data: nil,
 			want: 0,
 		},
@@ -78,11 +78,6 @@ func TestMaximum(t *testing.T) {
 			want: 10,
 		},
 		{
-			name: "Обычный срез",
-			data: []int{10, 7, 20, 80, 34},
-			want: 80,
-		},
-		{
 			name: "Срез из отрицательных чисел",
 			data: []int{-1, -2, -3, -10},
 			want: -1,
@@ -92,6 +87,55 @@ func TestMaximum(t *testing.T) {
 	for _, tc := range test {
 		t.Run(tc.name, func(t *testing.T) {
 			maxInt := maximum(tc.data)
+
+			if maxInt != tc.want {
+				t.Errorf("Ожидалось %d, получили %d", tc.want, maxInt)
+			}
+		})
+	}
+}
+
+func TestMaximumChunk(t *testing.T) {
+	test := []struct {
+		name string
+		data []int
+		want int
+	}{
+		{
+			name: "Элементов в срезе меньше чанков",
+			data: []int{1, 3, 2},
+			want: 3,
+		},
+		{
+			name: "Кол-во элементов в срезе и чанков равно",
+			data: []int{1, 3, 6, 8, 9, 2, 4, 5},
+			want: 9,
+		},
+		{
+			name: "Кол-во элементов в срезе не делится нацело на число чанков",
+			data: []int{1, 3, 6, 8, 9, 2, 4, 5, 7, 0, 10},
+			want: 10,
+		},
+		{
+			name: "Срез равен nil",
+			data: nil,
+			want: 0,
+		},
+		{
+			name: "Пустой срез",
+			data: []int{},
+			want: 0,
+		},
+		{
+			name: "Срез из отрицательных чисел",
+			data: []int{-1, -3, -6, -8, -9, -2, -4, -5},
+			want: -1,
+		},
+	}
+
+	for _, tc := range test {
+		t.Run(tc.name, func(t *testing.T) {
+			maxInt := maxChunks(tc.data)
 
 			if maxInt != tc.want {
 				t.Errorf("Ожидалось %d, получили %d", tc.want, maxInt)
