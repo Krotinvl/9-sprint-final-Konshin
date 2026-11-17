@@ -30,11 +30,11 @@ func generateRandomElements(size int) []int {
 // maximum returns the maximum number of elements.
 func maximum(data []int) int {
 	// ваш код здесь
-	if data == nil {
+	if len(data) == 0 {
 		return 0
 	}
 
-	var maxInt int
+	maxInt := data[0]
 
 	for _, v := range data {
 		maxInt = max(maxInt, v)
